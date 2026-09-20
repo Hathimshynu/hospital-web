@@ -19,9 +19,9 @@ export function HeroSceneLayer() {
   const scroll = useRef(0);
   const [inView, setInView] = useState(true);
   const tier = useDeviceTier();
-  const webgl = useWebGLSupport();
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const ready = useEngaged();
+  const webgl = useWebGLSupport(ready);
 
   useEffect(() => {
     const el = box.current;
@@ -45,7 +45,8 @@ export function HeroSceneLayer() {
     return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
   }, [inView, reduced, ready]);
 
-  const show = ready && webgl && tier && tier !== "minimal";
+  // unmount (and release the GL context) once the hero is off screen; it re-mounts from the cached chunk on return
+  const show = ready && inView && webgl && tier && tier !== "minimal";
   return (
     <div ref={box} aria-hidden="true" className="absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,#000_0%,#000_34%,transparent_52%)] lg:[mask-image:none]">
       {show && (

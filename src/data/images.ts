@@ -5,6 +5,8 @@
  * drop a new WebP in optimized/ and change the path here; components never
  * contain image paths.
  */
+import { doctors } from "@/data/doctors";
+
 export interface SiteImage { src: string; alt: string }
 
 const p = (path: string, alt: string): SiteImage => ({ src: `/images/optimized/${path}`, alt });
@@ -14,9 +16,9 @@ export const hospitalImages = {
   exterior: p("hospital/building.webp", "Illustrated view of the hospital building in Eraniel, Kanyakumari District"),
 };
 
-export const doctorImages = {
-  "dr-melbin": p("doctors/dr-melbin.webp", "Portrait of Dr. Melbin, Consultant Physician, wearing a white coat and stethoscope"),
-};
+export const doctorImages = Object.fromEntries(
+  doctors.map((d) => [d.slug, p(`doctors/${d.slug}.webp`, `Portrait of ${d.name}, ${d.title}, wearing a white coat and stethoscope`)]),
+) as Record<string, SiteImage>;
 
 export const departmentImages = {
   "general-medicine": p("departments/general-medicine.webp", "A physician in scrubs standing in a bright General Medicine consultation room"),

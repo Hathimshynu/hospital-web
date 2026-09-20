@@ -26,16 +26,16 @@ export type SceneName = keyof typeof scenes;
  * screen (context -> frameloop "never" otherwise). Renders nothing on very low-power devices, without
  * WebGL, or if it fails - the section's HTML is complete on its own.
  */
-export function SceneLayer({ scene, className, progress, sources }: {
-  scene: SceneName; className?: string; progress?: MutableRefObject<number>; sources?: string[];
+export function SceneLayer({ scene, className, progress, sources, onReady }: {
+  scene: SceneName; className?: string; progress?: MutableRefObject<number>; sources?: string[]; onReady?: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [near, setNear] = useState(false);
   const [running, setRunning] = useState(false);
   const tier = useDeviceTier();
-  const webgl = useWebGLSupport();
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const engaged = useEngaged();
+  const webgl = useWebGLSupport(engaged);
 
   useEffect(() => {
     const el = ref.current;
@@ -53,7 +53,7 @@ export function SceneLayer({ scene, className, progress, sources }: {
         <SceneBoundary>
           <Suspense fallback={null}>
             <SceneRunContext.Provider value={running}>
-              <Scene tier={tier} reduced={reduced} progress={progress} sources={sources} />
+              <Scene tier={tier} reduced={reduced} progress={progress} sources={sources} onReady={onReady} />
             </SceneRunContext.Provider>
           </Suspense>
         </SceneBoundary>

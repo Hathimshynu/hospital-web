@@ -1,14 +1,12 @@
-# Image assets
+# Web images
 
-Drop real photographs here using these exact names. Any of `.jpg .jpeg .png .webp .avif` works.
-Restart `npm run dev` (or rebuild) after adding files. Until a file exists the site shows a designed fallback.
+`optimized/` holds the ONLY images the site serves (real WebP, resized). Paths are referenced in one place: `src/data/images.ts`.
 
-| File | Used for | Recommended |
-|------|----------|-------------|
-| `hospital/building.jpg` | Hero, About, Contact | Landscape, min 1600px wide, building + signage fully visible |
-| `doctors/dr-melbin.jpg` | Featured doctor | Portrait 4:5, min 900px wide, face in upper third |
-| `story/01-family.jpg` … `06-happy-family.jpg` | Mother & child story | Landscape 4:3, min 1400px wide |
-| `facilities/consultation.jpg`, `laboratory.jpg`, `ultrasound.jpg`, `pharmacy.jpg` | Facilities | Landscape 4:3 |
-| `blog/fever.jpg`, `diabetes.jpg`, `antenatal.jpg` | Blog cards | Landscape 16:10 |
+Your untouched originals live in `assets-source/` (project root, NOT served). To change or add a picture:
 
-Story images that are illustrative / AI-generated must be labelled as such on the page and must never be presented as real patients or hospital staff.
+1. put the original in `assets-source/`
+2. add/adjust its entry in `scripts/optimize-images.mjs`
+3. run `node scripts/optimize-images.mjs`
+4. point `src/data/images.ts` at the new file
+
+Pregnancy stage 2 has the unrelated hospital signage painted out by that script. Do not replace `story/02.webp` with the raw original.

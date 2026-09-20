@@ -16,7 +16,7 @@ export function Navbar() {
   const phone = urgentPhone();
   const label = hospital.contact.emergency ? "Emergency" : "Call Us";
   return (
-    <header className="site-header fixed inset-x-0 top-0 z-[100] bg-white/90 backdrop-blur-xl">
+    <header className="site-header fixed inset-x-0 top-0 z-[100] bg-white/95">
       <div className="site-bar container-x flex items-center justify-between gap-4">
         <Logo />
         <NavLinks />

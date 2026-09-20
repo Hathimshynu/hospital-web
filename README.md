@@ -36,4 +36,4 @@ Optional values that are `null` in `hospital.ts` (`emergency`, `email`, `hours`,
 - **Images** live in `public/images/optimized/` (real WebP) and are referenced only from `src/data/images.ts`. Your originals in `public/images/` are never served.
 - **Framer Motion has been removed.**
 
-Commands: `npm run build` then `npm start` (or `npm start -- -H 0.0.0.0 -p 3477` for phone testing on the same Wi-Fi). If Turbopack runs out of memory on a low-RAM machine, use `npx next build --webpack`.
+Commands: `npm run build` then `npm start` (or `npm start -- -H 0.0.0.0` to test from a phone on the same Wi-Fi). If Turbopack runs out of memory on a low-RAM machine, use `npx next build --webpack`.

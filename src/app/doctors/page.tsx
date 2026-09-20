@@ -5,8 +5,8 @@ import { hospital } from "@/data/hospital";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta(
-  "Our Doctors - Dr. Melbin, Consultant Physician",
-  `Meet the doctors at ${hospital.name}, Eraniel: Dr. Melbin, MBBS, MD (General Medicine), Consultant Physician for fever, infections and diabetes care.`,
+  `Our Doctors - ${featuredDoctor.name}, ${featuredDoctor.title}`,
+  `Meet the doctors at ${hospital.name}, Eraniel: ${featuredDoctor.name}, ${featuredDoctor.qualification}, ${featuredDoctor.title} for fever, infections and diabetes care.`,
   "/doctors",
 );
 

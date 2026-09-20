@@ -11,6 +11,8 @@ export type SceneTier = Exclude<DeviceTier, "minimal">;
 export interface SceneProps {
   tier: SceneTier;
   reduced: boolean;
+  /** called once when the scene has real content on screen (pregnancy: the first photo is loaded) */
+  onReady?: () => void;
   /** 0..1 scroll progress, for scenes driven by scroll (pregnancy) */
   progress?: MutableRefObject<number>;
   /** texture URLs, for image-based scenes (pregnancy) */

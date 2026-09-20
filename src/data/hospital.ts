@@ -10,12 +10,25 @@ import type { Hospital } from "@/types";
  * are hidden automatically while they are null / empty. Fill them in once the
  * hospital confirms them - nothing else needs to change.
  */
+/**
+ * The public site URL feeds canonical links, the sitemap, Open Graph and JSON-LD, so a production
+ * build must NEVER fall back to a development address. Set NEXT_PUBLIC_SITE_URL to the real domain
+ * (see .env.example). In development it defaults to http://localhost:3000.
+ */
+function siteUrlFromEnv(): string {
+  const v = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!v && process.env.NODE_ENV === "production") {
+    throw new Error("NEXT_PUBLIC_SITE_URL is not set. Set it to the public https:// address of the site before building for production (see .env.example).");
+  }
+  return (v ?? "http://localhost:3000").replace(/\/$/, "");
+}
+
 export const hospital: Hospital = {
   name: "Hospital",
   tagline: "Multispeciality Care",
   description:
     "Advanced multispeciality healthcare with modern facilities and a human-centered approach for you and your family.",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, ""),
+  url: siteUrlFromEnv(),
   address: {
     lines: ["M.L. Road (Near Mosque)", "Eraniel"],
     locality: "Eraniel",

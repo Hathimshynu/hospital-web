@@ -196,8 +196,8 @@ html[data-nav] .page-in { animation: page-in 0.5s var(--ease-premium) both; }
 .group:hover .float-dot { animation: float-up 2.6s ease-in infinite; }
 
 /* ---------- Glow cursor (desktop, fine pointer only) ---------- */
-html.has-glow-cursor, html.has-glow-cursor a, html.has-glow-cursor button, html.has-glow-cursor [role="button"], html.has-glow-cursor label, html.has-glow-cursor select { cursor: none; }
-html.has-glow-cursor input, html.has-glow-cursor textarea, html.has-glow-cursor iframe { cursor: auto; }
+html.has-glow-cursor, html.has-glow-cursor a, html.has-glow-cursor button, html.has-glow-cursor [role="button"], html.has-glow-cursor label { cursor: none; }
+html.has-glow-cursor input, html.has-glow-cursor textarea, html.has-glow-cursor select, html.has-glow-cursor iframe { cursor: auto; }
 .glow-cursor { transition: opacity 0.3s; }
 .glow-cursor[data-mode="native"] { opacity: 0 !important; }
 .gc-dot, .gc-ring, .gc-glow, .gc-trail { position: absolute; left: 0; top: 0; border-radius: 9999px; will-change: transform; }
@@ -271,12 +271,13 @@ html[data-scrolled] .site-bar { height: 4rem; }
 .menu-scrim { animation: fade-in 0.3s both; }
 .menu-leaving .menu-panel { animation: menu-out 0.28s ease-in both; }
 .menu-leaving .menu-scrim { animation: fade-out 0.28s both; }
-.menu-item { animation: item-in 0.45s var(--ease-premium) both; animation-delay: calc(0.08s + var(--i, 0) * 0.045s); }
+/* one animation for the whole list (8 separately animated items = 8 extra compositor layers) */
+.menu-list { animation: item-in 0.45s var(--ease-premium) 0.06s both; }
 
 @media (prefers-reduced-motion: reduce) {
   .js [data-reveal], .js [data-reveal-group] .reveal-line, .js [data-reveal-clip] .reveal-clip { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
   .tilt-inner { transform: none !important; }
-  .hero-rise, .menu-panel, .menu-scrim, .menu-item { animation: none !important; }
+  .hero-rise, .menu-panel, .menu-scrim, .menu-list { animation: none !important; }
 }
 
 /* Skip rendering work for below-the-fold sections until they near the viewport (big style/layout saving on long pages). */

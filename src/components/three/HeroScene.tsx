@@ -11,8 +11,8 @@ import type { DeviceTier } from "@/hooks/useDeviceTier";
 type ActiveTier = Exclude<DeviceTier, "minimal">;
 
 const BUDGET: Record<ActiveTier, { nodes: number; pulses: number; particles: number; dpr: [number, number]; dna: boolean }> = {
-  high: { nodes: 90, pulses: 10, particles: 160, dpr: [1, 1.75], dna: true },
-  medium: { nodes: 60, pulses: 6, particles: 90, dpr: [1, 1.5], dna: false },
+  high: { nodes: 90, pulses: 10, particles: 160, dpr: [1, 1.5], dna: true },
+  medium: { nodes: 60, pulses: 6, particles: 90, dpr: [1, 1.25], dna: false },
   low: { nodes: 38, pulses: 4, particles: 50, dpr: [1, 1.25], dna: false },
 };
 

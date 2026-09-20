@@ -84,6 +84,9 @@ export function ParticleText({
     if (!el || !cv || !ctx) { setPhase("done"); return; }
     let raf = 0, dead = false;
     const finish = () => { if (!dead) setPhase("done"); };
+    // no point animating a heading nobody can see: end the effect (text is already solid HTML) when it scrolls away
+    const leaveIo = new IntersectionObserver(([e]) => { if (!e.isIntersecting) { dead = true; cancelAnimationFrame(raf); setPhase("done"); } });
+    leaveIo.observe(el);
     const onResize = () => { dead = true; cancelAnimationFrame(raf); setPhase("done"); };
 
     const run = async () => {
@@ -153,7 +156,7 @@ export function ParticleText({
     };
     run();
     window.addEventListener("resize", onResize, { once: true });
-    return () => { dead = true; cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
+    return () => { dead = true; leaveIo.disconnect(); cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- palette identity is irrelevant; only its contents matter
   }, [phase, count, duration, size, particleColor.join(), host]);
 

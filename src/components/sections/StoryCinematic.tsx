@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
+import { Media } from "@/components/ui/Media";
 import { SceneLayer } from "@/components/three/SceneLayer";
 import { cn } from "@/lib/utils";
 import type { Stage } from "./StoryVertical";
@@ -17,6 +18,7 @@ export default function StoryCinematic({ stages }: { stages: Stage[] }) {
   const progress = useRef(0);
   const n = stages.length;
   const [active, setActive] = useState(0);
+  const [sceneReady, setSceneReady] = useState(false);
   const sources = useMemo(() => stages.map((s) => s.src).filter((x): x is string => !!x), [stages]);
 
   useEffect(() => {
@@ -59,8 +61,17 @@ export default function StoryCinematic({ stages }: { stages: Stage[] }) {
               </div>
             ))}
           </div>
-          <div className="relative h-full min-h-[22rem]" role="img" aria-label={stages[active]?.alt}>
-            <SceneLayer scene="pregnancy" progress={progress} sources={sources} className="-inset-x-6" />
+          <div className="relative h-full min-h-[22rem]">
+            {/* Real HTML photo of the active stage: shown until the 3D scene has its first photo, and
+                permanently if WebGL cannot start - so this panel is never blank. */}
+            {!sceneReady && (
+              <div className="absolute inset-0 grid place-items-center">
+                <Media src={stages[active]?.src} alt={stages[active]?.alt ?? ""} className="aspect-[16/9] w-full max-w-[46rem] rounded-[2rem] shadow-[0_40px_80px_-44px_rgba(8,35,59,0.55)]" sizes="50vw" />
+              </div>
+            )}
+            <div role="img" aria-label={stages[active]?.alt} className="absolute inset-0">
+              <SceneLayer scene="pregnancy" progress={progress} sources={sources} className="-inset-x-6" onReady={() => setSceneReady(true)} />
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-4 pb-6" aria-hidden="true">

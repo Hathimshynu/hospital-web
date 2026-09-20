@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
-import { useDeviceTier, useMediaQuery, useWebGLSupport } from "@/hooks/useDeviceTier";
+import { useDeviceTier, useMediaQuery, useWebGLApi } from "@/hooks/useDeviceTier";
 import type { Stage } from "./StoryVertical";
 
 // The desktop 3D story is a separate chunk: phones and low-power devices never download it.
@@ -16,7 +16,7 @@ export function PregnancyStory({ stages, children }: { stages: Stage[]; children
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const wide = useMediaQuery("(min-width: 1024px)");
   const tier = useDeviceTier();
-  const webgl = useWebGLSupport();
+  const webgl = useWebGLApi();
   const cinematic = wide && !reduced && webgl && stages.every((s) => s.src) && (tier === "high" || tier === "medium");
   return cinematic ? <StoryCinematic stages={stages} /> : children;
 }

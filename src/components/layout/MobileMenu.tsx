@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef } from "react";
 import { Phone, X } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
@@ -52,11 +52,11 @@ export function MobileMenu({ leaving, onClose, pathname }: { leaving: boolean; o
         </div>
 
         <nav aria-label="Mobile" className="px-5 pt-2">
-          <ul>
-            {nav.map((n, i) => {
+          <ul className="menu-list">
+            {nav.map((n) => {
               const active = n.href === "/" ? pathname === "/" : pathname === n.href || pathname.startsWith(n.href + "/");
               return (
-                <li key={n.href} className="menu-item" style={{ "--i": i } as CSSProperties}>
+                <li key={n.href}>
                   <Link
                     href={n.href} onClick={onClose} aria-current={active ? "page" : undefined}
                     className={cn("flex min-h-14 items-center justify-between border-b border-navy-950/8 text-xl font-semibold", active ? "text-brand-700" : "text-navy-950")}

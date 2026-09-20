@@ -56,9 +56,18 @@ function detectWebGL(): boolean {
   }
   return webglCache;
 }
-/** True when the browser can create a WebGL context (false on the server and during hydration). */
-export function useWebGLSupport(): boolean {
-  return useSyncExternalStore(() => () => {}, detectWebGL, () => false);
+/**
+ * True when the browser can actually create a WebGL context. The probe creates (and immediately releases)
+ * a context, so it runs ONLY when `enabled` - callers pass "the visitor has engaged", which keeps
+ * first load free of any WebGL context.
+ */
+export function useWebGLSupport(enabled = true): boolean {
+  return useSyncExternalStore(() => () => {}, () => (enabled ? detectWebGL() : false), () => false);
+}
+
+/** Cheap presence check (no context is created): does this browser expose WebGL at all? */
+export function useWebGLApi(): boolean {
+  return useSyncExternalStore(() => () => {}, () => typeof window !== "undefined" && "WebGLRenderingContext" in window, () => false);
 }
 
 /** True only for a real mouse (hover + fine pointer). Phones, tablets and touch laptops in touch mode are false. */

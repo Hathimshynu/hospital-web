@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useFinePointer } from "@/hooks/useDeviceTier";
 
-const LINK = "a, button, [role=button], summary, label[for], select";
+const LINK = "a, button, [role=button], summary, label[for]";
 const TRAIL = 5;
 
 /**
@@ -65,7 +65,7 @@ export function GlowCursor() {
     const over = (e: PointerEvent) => {
       const t = e.target as Element | null;
       if (!t || !t.closest) return;
-      if (t.closest("iframe, input, textarea")) setMode("native");
+      if (t.closest("iframe, input, textarea, select")) setMode("native");
       else if (t.closest(LINK)) setMode("link");
       else if (t.closest("[data-cursor=card]")) setMode("card");
       else if (t.closest("[data-cursor=image], img")) setMode("image");
