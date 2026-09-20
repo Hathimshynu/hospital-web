@@ -1,18 +1,14 @@
-"use client";
-
 import type { ReactNode } from "react";
-import { motion } from "framer-motion";
-import { viewportOnce } from "@/lib/animations";
 
-/** Clip-path unveil for large images. The image stays in the DOM (and crawlable) the whole time. */
-export function ImageReveal({ children, className }: { children: ReactNode; className?: string }) {
+/**
+ * Clip-path unveil for large images (CSS). The observed wrapper is never clipped; only the inner
+ * element is, otherwise the browser would treat it as invisible and the reveal would never fire.
+ * Server component - no client JS.
+ */
+export function ImageReveal({ children, className, from = "left" }: { children: ReactNode; className?: string; from?: "left" | "up" }) {
   return (
-    <motion.div
-      className={className}
-      initial={{ clipPath: "inset(0 100% 0 0 round 28px)" }} whileInView={{ clipPath: "inset(0 0% 0 0 round 28px)" }}
-      viewport={viewportOnce} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
+    <div className={className} data-reveal-clip="">
+      <div className={from === "up" ? "reveal-clip reveal-up" : "reveal-clip"}>{children}</div>
+    </div>
   );
 }

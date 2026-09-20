@@ -73,7 +73,7 @@ export function FeaturedDoctor({ doc = featuredDoctor }: { doc?: Doctor }) {
 export function Doctors() {
   const others = doctors.filter((d) => d.slug !== featuredDoctor.slug);
   return (
-    <section aria-labelledby="doctors-title" className="relative isolate overflow-hidden bg-white py-16 md:py-24">
+    <section aria-labelledby="doctors-title" className="cv-auto relative isolate overflow-hidden bg-white py-16 md:py-24">
       <SceneLayer scene="doctors" className="-z-10" />
       <div className="container-x">
         <SectionHeading id="doctors-title" particles eyebrow="Our Doctors" lines={["Meet Our Doctors"]} text="Experienced, approachable physicians who take the time to listen." className="mb-10" />

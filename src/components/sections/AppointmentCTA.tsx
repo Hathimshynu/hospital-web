@@ -7,7 +7,7 @@ import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export function AppointmentCTA({ id = "appointment", preset }: { id?: string; preset?: { department?: string; doctor?: string; service?: string } }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="bg-gradient-to-b from-mint/60 to-white py-16 md:py-24">
+    <section id={id} aria-labelledby={`${id}-title`} className="cv-auto bg-gradient-to-b from-mint/60 to-white py-16 md:py-24">
       <div className="container-x grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <div>
           <SectionHeading id={`${id}-title`} particles eyebrow="Appointments" lines={["Book Your Appointment", "on WhatsApp"]} text="Tell us what you need. We'll open WhatsApp with your details filled in, and our team will confirm your time." />

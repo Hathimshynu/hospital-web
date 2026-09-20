@@ -1,34 +1,26 @@
-"use client";
+import type { CSSProperties, ReactNode } from "react";
 
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
-import { fadeUp, viewportOnce } from "@/lib/animations";
-
-/** Scroll-reveal wrapper: fade + slight upward movement. */
-export function Reveal({ children, delay = 0, className, as = "div" }: { children: ReactNode; delay?: number; className?: string; as?: "div" | "li" | "article" }) {
-  const M = motion[as];
+/**
+ * Scroll reveal (fade + slight rise). A SERVER component: it only renders an attribute that the
+ * single global IntersectionObserver (layout/GlobalEffects) picks up, so it adds no client JS
+ * per instance. Without JavaScript the content is simply visible.
+ */
+export function Reveal({ children, delay = 0, className, as: Tag = "div" }: { children: ReactNode; delay?: number; className?: string; as?: "div" | "li" | "article" }) {
   return (
-    <M className={className} variants={fadeUp} custom={delay} initial="hidden" whileInView="show" viewport={viewportOnce}>
+    <Tag className={className} data-reveal="" style={{ "--d": `${delay}s` } as CSSProperties}>
       {children}
-    </M>
+    </Tag>
   );
 }
 
-/** Line-by-line masked text reveal. Pass lines explicitly to control wrapping. */
+/** Line-by-line masked text reveal (CSS). Pass lines explicitly to control wrapping. */
 export function TextReveal({ lines, className, delay = 0 }: { lines: string[]; className?: string; delay?: number }) {
   return (
-    <span className={className}>
+    <span className={className} data-reveal-group="">
       {lines.map((line, i) => (
-        // The observed element is the (unclipped) mask; the line inside animates via variant propagation.
-        <motion.span key={i} className="block overflow-hidden pb-[0.12em]" initial="hidden" whileInView="show" viewport={viewportOnce}>
-          <motion.span
-            className="block"
-            variants={{ hidden: { y: "110%" }, show: { y: 0 } }}
-            transition={{ duration: 0.9, delay: delay + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {line}
-          </motion.span>
-        </motion.span>
+        <span key={i} className="block overflow-hidden pb-[0.12em]">
+          <span className="reveal-line block" style={{ "--d": `${delay + i * 0.1}s` } as CSSProperties}>{line}</span>
+        </span>
       ))}
     </span>
   );

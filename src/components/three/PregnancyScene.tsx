@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import type { SceneProps } from "./SectionCanvas";
+import { useSceneRunning } from "./sceneContext";
 import { FloatingParticles } from "./FloatingParticles";
 import { COLORS } from "./utils";
 
@@ -124,13 +125,14 @@ function Stage({ sources, progress }: { sources: string[]; progress: React.Mutab
  * a slight yaw and fade. All headings and copy live in HTML next to this canvas.
  */
 export default function PregnancyScene({ tier, reduced, progress, sources }: SceneProps) {
+  const running = useSceneRunning();
   if (!progress || !sources?.length) return null;
   return (
     <Canvas
       dpr={tier === "high" ? [1, 1.75] : [1, 1.25]}
       camera={{ position: [0, 0, 8.6], fov: 40, near: 0.1, far: 40 }}
       gl={{ antialias: tier === "high", alpha: true, powerPreference: "high-performance" }}
-      frameloop={reduced ? "demand" : "always"}
+      frameloop={reduced ? "demand" : running ? "always" : "never"}
       aria-hidden="true"
     >
       <Stage sources={sources} progress={progress} />

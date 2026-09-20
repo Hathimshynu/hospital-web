@@ -42,7 +42,7 @@ export function ServiceGrid({ detailed }: { detailed?: boolean }) {
 
 export function Services() {
   return (
-    <section aria-labelledby="services-title" className="relative isolate overflow-hidden bg-white py-16 md:py-24">
+    <section aria-labelledby="services-title" className="cv-auto relative isolate overflow-hidden bg-white py-16 md:py-24">
       <SceneLayer scene="services" className="-z-10" />
       <div className="container-x">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6">

@@ -8,7 +8,7 @@ import { SceneLayer } from "@/components/three/SceneLayer";
 export function EmergencyCTA() {
   const phone = urgentPhone();
   return (
-    <section aria-labelledby="emergency-title" className="on-dark bg-white py-12 md:py-16">
+    <section aria-labelledby="emergency-title" className="cv-auto on-dark bg-white py-12 md:py-16">
       <div className="container-x">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-navy-950 to-navy-800 p-7 text-white sm:p-10 lg:p-14">

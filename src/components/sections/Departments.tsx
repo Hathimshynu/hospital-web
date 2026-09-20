@@ -47,7 +47,7 @@ export function DepartmentGrid() {
 
 export function Departments() {
   return (
-    <section aria-labelledby="dept-title" className="relative isolate overflow-hidden bg-mist py-16 md:py-24">
+    <section aria-labelledby="dept-title" className="cv-auto relative isolate overflow-hidden bg-mist py-16 md:py-24">
       <SceneLayer scene="departments" className="-z-10" />
       <div className="container-x">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6">

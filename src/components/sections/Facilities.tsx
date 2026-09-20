@@ -29,7 +29,7 @@ export function FacilityGrid() {
 
 export function Facilities() {
   return (
-    <section aria-labelledby="fac-title" className="relative isolate overflow-hidden bg-mist py-16 md:py-24">
+    <section aria-labelledby="fac-title" className="cv-auto relative isolate overflow-hidden bg-mist py-16 md:py-24">
       <SceneLayer scene="facilities" className="-z-10" />
       <div className="container-x">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6">

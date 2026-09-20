@@ -3,6 +3,7 @@
 import type { MutableRefObject, ReactNode } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import type { DeviceTier } from "@/hooks/useDeviceTier";
+import { useSceneRunning } from "./sceneContext";
 
 export type SceneTier = Exclude<DeviceTier, "minimal">;
 
@@ -35,12 +36,13 @@ export function useHalfWidth() {
 export function SectionCanvas({ tier, reduced, children, camera = [0, 0, 9] }: {
   tier: SceneTier; reduced: boolean; children: ReactNode; camera?: [number, number, number];
 }) {
+  const running = useSceneRunning();
   return (
     <Canvas
       dpr={BUDGET[tier].dpr}
       camera={{ position: camera, fov: 42, near: 0.1, far: 40 }}
       gl={{ antialias: false, alpha: true, powerPreference: "low-power" }}
-      frameloop={reduced ? "demand" : "always"}
+      frameloop={reduced ? "demand" : running ? "always" : "never"}
       aria-hidden="true"
     >
       <ambientLight intensity={1.1} />

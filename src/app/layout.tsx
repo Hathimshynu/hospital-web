@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import { AppShell } from "@/components/layout/AppShell";
+import { GlobalEffects } from "@/components/layout/GlobalEffects";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
@@ -35,18 +35,21 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={manrope.variable}>
+    <html lang="en" className={manrope.variable} suppressHydrationWarning>
+      <head>
+        {/* Marks JS as available BEFORE first paint so reveal styles only apply when JS can reveal them. Without JS everything is visible. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
         <a href="#main" className="skip-link">Skip to content</a>
-        {/* Scroll-reveal starts hidden for animation. Without JavaScript nothing would ever reveal it, so show everything. */}
-        <noscript><style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}[style*="clip-path"]{clip-path:none!important}[style*="translateY(110%)"]{transform:none!important}`}</style></noscript>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(hospitalJsonLd()) }} />
-        <AppShell>
-          <Navbar />
-          <main id="main">{children}</main>
-          <Footer />
-          <MobileActionBar />
-        </AppShell>
+        <div id="top-sentinel" aria-hidden="true" className="pointer-events-none absolute left-0 top-0 h-16 w-px" />
+        <div aria-hidden="true" className="scroll-progress fixed inset-x-0 top-0 z-[120] h-[3px] bg-gradient-to-r from-brand-600 to-brand-400" />
+        <Navbar />
+        <main id="main">{children}</main>
+        <Footer />
+        <MobileActionBar />
+        <GlobalEffects />
       </body>
     </html>
   );

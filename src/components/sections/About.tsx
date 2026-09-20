@@ -22,7 +22,7 @@ const points = [
 export function About({ full }: { full?: boolean }) {
   const image = hospitalImages.exterior.src;
   return (
-    <section aria-labelledby="about-title" className="relative isolate overflow-hidden bg-white py-16 md:py-24">
+    <section aria-labelledby="about-title" className="cv-auto relative isolate overflow-hidden bg-white py-16 md:py-24">
       <SceneLayer scene="about" className="-z-10" />
       <div className="container-x grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <ImageReveal>

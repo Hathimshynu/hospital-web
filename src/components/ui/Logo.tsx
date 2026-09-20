@@ -19,7 +19,7 @@ export function LogoMark({ className }: { className?: string }) {
 
 export function Logo({ light, className }: { light?: boolean; className?: string }) {
   return (
-    <Link href="/" aria-label={`${hospital.name} - home`} className={cn("inline-flex min-h-11 items-center gap-3", className)}>
+    <Link href="/" aria-label={`${hospital.name} ${hospital.tagline} - home`} className={cn("inline-flex min-h-11 items-center gap-3", className)}>
       <LogoMark />
       <span className="flex flex-col leading-none">
         <span className={cn("text-lg font-bold tracking-tight", light ? "text-white" : "text-navy-950")}>{hospital.name}</span>

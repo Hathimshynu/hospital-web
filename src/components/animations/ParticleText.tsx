@@ -1,8 +1,7 @@
 "use client";
 
 import { createElement, useEffect, useRef, useState, type ElementType } from "react";
-import { useReducedMotion } from "framer-motion";
-import { useDeviceTier } from "@/hooks/useDeviceTier";
+import { useDeviceTier, useMediaQuery } from "@/hooks/useDeviceTier";
 import { cn } from "@/lib/utils";
 
 /**
@@ -45,11 +44,11 @@ const norm = (l: string | ParticleLine): ParticleLine => (typeof l === "string" 
 
 export function ParticleText({
   lines, text, as = "h2", id, className, color = "#08233B", particleColor = PALETTE,
-  particleCount = 1500, mobileParticleCount = 420, duration = 1.5, trigger = "view", size = 1.5, align = "left",
+  particleCount = 1000, mobileParticleCount = 300, duration = 1.5, trigger = "view", size = 1.5, align = "left",
 }: Props) {
   const [host, setHost] = useState<HTMLElement | null>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
-  const reduced = !!useReducedMotion();
+  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const tier = useDeviceTier();
   const [phase, setPhase] = useState<"idle" | "forming" | "done">("idle");
   const started = useRef(false);
@@ -63,7 +62,15 @@ export function ParticleText({
     const el = host;
     if (!enabled || !el || started.current) return;
     const begin = () => { if (!started.current) { started.current = true; setPhase("forming"); } };
-    if (trigger === "load") { begin(); return; }
+    if (trigger === "load") {
+      // Never compete with first paint: start once the page has loaded and the browser is idle.
+      // The real heading is already on screen, so nothing is waiting on this.
+      const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void };
+      let idleId = 0, tid = 0;
+      const kick = () => { if (w.requestIdleCallback) idleId = w.requestIdleCallback(begin, { timeout: 1500 }); else tid = window.setTimeout(begin, 300); };
+      if (document.readyState === "complete") kick(); else window.addEventListener("load", kick, { once: true });
+      return () => { window.removeEventListener("load", kick); w.cancelIdleCallback?.(idleId); window.clearTimeout(tid); };
+    }
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { begin(); io.disconnect(); } }, { rootMargin: "-10% 0px" });
     io.observe(el);
     return () => io.disconnect();
@@ -160,7 +167,7 @@ export function ParticleText({
         <span
           key={i} data-pt-line
           className={cn("block transition-[opacity,color] duration-500", l.className)}
-          style={forming ? { opacity: 0, transition: "none" } : undefined}
+          style={forming ? { opacity: 0.14, transition: "none" } : undefined}
         >
           {l.text}
         </span>

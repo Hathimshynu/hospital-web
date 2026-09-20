@@ -63,7 +63,7 @@ export function ContactActions() {
 
 export function Contact({ heading = true }: { heading?: boolean }) {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="bg-white py-16 md:py-24">
+    <section id="contact" aria-labelledby="contact-title" className="cv-auto bg-white py-16 md:py-24">
       <div className="container-x">
         {heading ? (
           <SectionHeading id="contact-title" eyebrow="Find Us" lines={["Contact Us"]} text="Visit us in Eraniel, call, or message us on WhatsApp - we're easy to reach." />
